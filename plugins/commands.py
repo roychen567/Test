@@ -70,6 +70,7 @@ async def start(client, message):
             InlineKeyboardButton('🔍sᴇᴀʀᴄʜ', switch_inline_query_current_chat=''),
             InlineKeyboardButton('ꜱᴛᴀᴛꜱ', callback_data='stats')
         ]]
+        reply_markup = InlineKeyboardMarkup(buttons)
         await message.reply_photo(
             photo="https://envs.sh/ZkV.jpg",
             caption=script.START_TXT.format(message.from_user.mention, temp.U_NAME, temp.B_NAME),
