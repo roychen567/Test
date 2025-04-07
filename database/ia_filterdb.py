@@ -131,9 +131,9 @@ async def get_bad_files(query, file_type=None, filter=False):
     if file_type:
         filter['file_type'] = file_type
 
-    total_results = await Media2.count_documents(filter)
+    total_results = await Media.count_documents(filter)
     
-    cursor_media1 = Media2.find(filter)
+    cursor_media1 = Media.find(filter)
     cursor_media1.sort('$natural', -1)
     files_media1 = await cursor_media1.to_list(length=total_results)
 
