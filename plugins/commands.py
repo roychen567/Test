@@ -64,8 +64,11 @@ async def start(client, message):
         buttons = [[
             InlineKeyboardButton('➕ 𝙰𝚍𝚍 𝙼𝚎 𝚃𝚘 𝚈𝚘𝚞𝚛 𝙶𝚛𝚘𝚞𝚙𝚜 ➕', url=f'http://t.me/{temp.U_NAME}?startgroup=true')
         ],[
+            InlineKeyboardButton('Main Channel', url='https://t.me/+WlRlRi4MNF1mOGQ9'),
+            InlineKeyboardButton('💌 Group', url='https://t.me/+V4B2j2y_UGViYWVl')
+        ],[
             InlineKeyboardButton('🔍sᴇᴀʀᴄʜ', switch_inline_query_current_chat=''),
-            InlineKeyboardButton('💌 Group', url='https://t.me/+MxeWYzJmeGgyNmU1')
+            InlineKeyboardButton('stats', callback_data='stats')
         ]]
         reply_markup = InlineKeyboardMarkup(buttons)
         await message.reply(
