@@ -70,9 +70,9 @@ async def start(client, message):
             InlineKeyboardButton('🔍sᴇᴀʀᴄʜ', switch_inline_query_current_chat=''),
             InlineKeyboardButton('stats', callback_data='stats')
         ]]
-        reply_markup = InlineKeyboardMarkup(buttons)
-        await message.reply(
-            text=script.START_TXT.format(message.from_user.mention, temp.B_NAME),
+        await message.reply_photo(
+            photo="https://graph.org/file/475f712b3da3b2625dd0a-c7641db29a39f83f50.jpg",
+            caption=script.START_TXT.format(message.from_user.mention, temp.U_NAME, temp.B_NAME),
             reply_markup=reply_markup,
             parse_mode=enums.ParseMode.HTML
         )
