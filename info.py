@@ -12,29 +12,29 @@ def is_enabled(value, default):
 
 # Bot information
 SESSION = environ.get('SESSION', 'Media_searcher')
-API_ID = int(environ.get('API_ID', '9254436'))
-API_HASH = environ.get('API_HASH', '42665ffe4407fbc3f59c412caa9d84d3')
-BOT_TOKEN = environ.get('BOT_TOKEN', '5828891683:AAHZMSDeuUvhZWkNygYO0WFwXhKiryVbcd0')
+API_ID = int(environ.get('API_ID', '21881785'))
+API_HASH = environ.get('API_HASH', '3ea846a3df1b63221ddc0ae02df04a43')
+BOT_TOKEN = environ.get('BOT_TOKEN', '1786837074:AAGpLvsYWB7oENdg_3KZ8WfFYxfs77w5RMU')
 
 # Bot settings
 CACHE_TIME = int(environ.get('CACHE_TIME', 300))
 USE_CAPTION_FILTER = True 
-PICS = (environ.get('PICS' ,'https://graph.org/file/df17e1fad3d856caf5df8.jpg https://graph.org/file/4db7c2e38f273e3b239dd.jpg https://graph.org/file/e4ead277c0bb7ab445c31.jpg https://graph.org/file/10d81181913c5d4237640.jpg https://graph.org/file/40fef09781fb9ded8cd13.jpg https://graph.org/file/b7b5a32ea575fa7ff50ee.jpg https://graph.org/file/bca1ca2c91828161aa247.jpg https://graph.org/file/bcea1a4ae0176d38a68b7.jpg https://graph.org/file/18a9f945534afa9db5036.jpg https://graph.org/file/89975fb3c157c1ae01e43.jpg https://graph.org/file/c548df4d4a42a8646aa04.jpg')).split()
+PICS = (environ.get('PICS' ,'https://graph.org/file/9c023dd906352100948c8.mp4')).split()
 
 # Admins, Channels & Users
-OWNER_ID = environ.get('OWNER_ID', '5845960615')
-ADMINS = [int(admin) if id_pattern.search(admin) else admin for admin in environ.get('ADMINS', '683891378 5845960615 6350633297').split()]
-CHANNELS = [int(ch) if id_pattern.search(ch) else ch for ch in environ.get('CHANNELS', ' -1001833339939 -1002038316280').split()]
+OWNER_ID = environ.get('OWNER_ID', '1380904444')
+ADMINS = [int(admin) if id_pattern.search(admin) else admin for admin in environ.get('ADMINS', '1380904444').split()]
+CHANNELS = [int(ch) if id_pattern.search(ch) else ch for ch in environ.get('CHANNELS', '-1002203759750').split()]
 auth_users = [int(user) if id_pattern.search(user) else user for user in environ.get('AUTH_USERS', '').split()]
 AUTH_USERS = (auth_users + ADMINS) if auth_users else []
 auth_grp = environ.get('AUTH_GROUP')
 AUTH_GROUPS = [int(ch) for ch in auth_grp.split()] if auth_grp else None
 
 # MongoDB information
-DATABASE_NAME = environ.get('DATABASE_NAME', "")
-COLLECTION_NAME = environ.get('COLLECTION_NAME', '')
-DATABASE_URI = environ.get('DATABASE_URI', "")
-DATABASE_URI2 = environ.get('DATABASE_URI2', "")
+DATABASE_NAME = environ.get('DATABASE_NAME', "Roy")
+COLLECTION_NAME = environ.get('COLLECTION_NAME', 'andi')
+DATABASE_URI = environ.get('DATABASE_URI', "mongodb+srv://Roy:Roy@alanwalker1.bv4gl.mongodb.net/?retryWrites=true&w=majority&appName=Alanwalker1")
+DATABASE_URI2 = environ.get('DATABASE_URI2', "mongodb+srv://Roy:Roy@alanwalker2.x9yrb.mongodb.net/?retryWrites=true&w=majority&appName=Alanwalker2")
 
 # FSUB
 auth_channel = environ.get('AUTH_CHANNEL')
@@ -51,7 +51,7 @@ DELETE_TIMEOUT = int(environ.get('DELETE_TIMEOUT', 2*60*60)) # 2 hours in second
 AUTO_DEL = int(300)
 PM_DEL = int(300)
 
-LOG_CHANNEL = int(environ.get('LOG_CHANNEL', '-1002406744820'))
+LOG_CHANNEL = int(environ.get('LOG_CHANNEL', '-1002289384769'))
 SUPPORT_CHAT = environ.get('SUPPORT_CHAT', 'MLZ_BOTZ_SUPPORT')
 P_TTI_SHOW_OFF = is_enabled((environ.get('P_TTI_SHOW_OFF', "True")), True)
 IMDB = is_enabled((environ.get('IMDB', "False")), False)
