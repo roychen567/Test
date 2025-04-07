@@ -216,7 +216,7 @@ async def start(client, message):
     await asyncio.sleep(300)
     await ok.delete()
     await da.delete()
-    btn = [[InlineKeyboardButton(text="ɢᴇᴛ ꜰɪʟᴇ ᴀɢᴀɪɴ", callback_data=f'{pre}#{file.file_id}')]]
+    btn = [[InlineKeyboardButton(text="ɢᴇᴛ ꜰɪʟᴇ ᴀɢᴀɪɴ", callback_data=f'{pre}#{file_id}')]]
     await message.reply(text="✅ ʏᴏᴜʀ ᴍᴇssᴀɢᴇ ɪs sᴜᴄᴄᴇssғᴜʟʟʏ ᴅᴇʟᴇᴛᴇᴅ ɪғ ʏᴏᴜ ᴡᴀɴᴛ ᴀɢᴀɪɴ ᴛʜᴇɴ ᴄʟɪᴄᴋ ᴏɴ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴ", reply_markup=InlineKeyboardMarkup(btn))
         
 @Client.on_message(filters.command('channel') & filters.user(ADMINS))
