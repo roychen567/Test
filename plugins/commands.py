@@ -146,7 +146,6 @@ async def start(client, message):
         ],[
             InlineKeyboardButton('Main Channel', url='https://t.me/+WlRlRi4MNF1mOGQ9'),
             InlineKeyboardButton('💌 Group', url='https://t.me/+V4B2j2y_UGViYWVl')
-        ]]
         ],[
             InlineKeyboardButton('🔍sᴇᴀʀᴄʜ', switch_inline_query_current_chat=''),
             InlineKeyboardButton('stats', callback_data='stats')
