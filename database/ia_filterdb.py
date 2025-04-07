@@ -149,7 +149,7 @@ async def get_bad_files(query, file_type=None, filter=False):
     
 async def get_file_details(query):
     filter = {'file_id': query}
-    cursor = Media2.find(filter)
+    cursor = Media.find(filter)
     filedetails = await cursor.to_list(length=1)
     if filedetails:
         return filedetails
