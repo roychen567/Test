@@ -68,7 +68,7 @@ async def start(client, message):
             InlineKeyboardButton('ɢʀᴏᴜᴘ', url='https://t.me/+V4B2j2y_UGViYWVl')
         ],[
             InlineKeyboardButton('🔍sᴇᴀʀᴄʜ', switch_inline_query_current_chat=''),
-            InlineKeyboardButton('stats', callback_data='stats')
+            InlineKeyboardButton('ꜱᴛᴀᴛꜱ', callback_data='stats')
         ]]
         await message.reply_photo(
             photo="https://envs.sh/ZkV.jpg",
@@ -151,7 +151,7 @@ async def start(client, message):
             InlineKeyboardButton('ɢʀᴏᴜᴘ', url='https://t.me/+V4B2j2y_UGViYWVl')
         ],[
             InlineKeyboardButton('🔍sᴇᴀʀᴄʜ', switch_inline_query_current_chat=''),
-            InlineKeyboardButton('stats', callback_data='stats')
+            InlineKeyboardButton('ꜱᴛᴀᴛꜱ', callback_data='stats')
         ]]
         reply_markup = InlineKeyboardMarkup(buttons)
         await message.reply_photo(
