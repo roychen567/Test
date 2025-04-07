@@ -7,7 +7,7 @@ from Script import script
 from pyrogram import Client, filters, enums
 from pyrogram.errors import ChatAdminRequired, FloodWait
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
-from database.ia_filterdb import Media2, Media3, Media4, Media5, get_file_details, unpack_new_file_id
+from database.ia_filterdb import Media, get_file_details, unpack_new_file_id
 from database.users_chats_db import db
 from info import CHANNELS, ADMINS, REQ_CHANNEL1, REQ_CHANNEL2, LOG_CHANNEL, PICS, BATCH_FILE_CAPTION, CUSTOM_FILE_CAPTION, PROTECT_CONTENT, PM_DEL
 from utils import get_size, is_subscribed, is_requested_one, is_requested_two, temp, check_loop_sub, check_loop_sub1, check_loop_sub2
@@ -269,30 +269,14 @@ async def delete(bot, message):
     file_id, file_ref = unpack_new_file_id(media.file_id)
 
     # Check if the file exists in Media collection
-    result_media1 = await Media2.collection.find_one({'_id': file_id})
+    result_media1 = await Media.collection.find_one({'_id': file_id})
 
-    # Check if the file exists in Mediaa collection
-    result_media2 = await Media3.collection.find_one({'_id': file_id})   
-    result_media3 = await Media4.collection.find_one({'_id': file_id})   
-    result_media4 = await Media5.collection.find_one({'_id': file_id})   
-        
     if result_media1:
         # Delete from Media collection
-        await Media2.collection.delete_one({'_id': file_id})
-    elif result_media2:
-        # Delete from Mediaa collection
-        await Media3.collection.delete_one({'_id': file_id})
-    elif result_media3:
-        # Delete from Mediaa collection
-        await Media4.collection.delete_one({'_id': file_id})
-    elif result_media4:
-        # Delete from Mediaa collection
-        await Media5.collection.delete_one({'_id': file_id})
+        await Media.collection.delete_one({'_id': file_id})
     else:
-        # File not found in both collections
-        await msg.edit('File not found in the database')
+        await msg.edit('File not found ')
         return
-
     await msg.edit('File is successfully deleted from the database')
     
 @Client.on_message(filters.command('deleteall') & filters.user(ADMINS))
@@ -319,10 +303,7 @@ async def delete_all_index(bot, message):
 
 @Client.on_callback_query(filters.regex(r'^autofilter_delete'))
 async def delete_all_index_confirm(bot, message):
-    await Media2.collection.drop()
-    await Media3.collection.drop()
-    await Media4.collection.drop()
-    await Media5.collection.drop()
+    await Media.collection.drop()
     await message.answer('Piracy Is Crime')
     await message.message.edit('Succesfully Deleted All The Indexed Files.')
 
@@ -355,61 +336,3 @@ async def deletemultiplefiles(bot, message):
         reply_markup=InlineKeyboardMarkup(btn),
         parse_mode=enums.ParseMode.HTML
     )
-    
-@Client.on_message(filters.command("delete_duplicate") & filters.user(ADMINS))
-async def delete_duplicate_files(client, message):
-    ok = await message.reply("prosessing...")
-    deleted_count = 0
-    batch_size = 0
-    async def remove_duplicates(collection1, unique_files, ok, deleted_count, batch_size):                        
-        async for duplicate_file in collection1.find():
-            file_size = duplicate_file["file_size"]
-            file_id = duplicate_file["file_id"]
-            if file_size in unique_files and unique_files[file_size] != file_id:
-                result_media1 = await collection1.find_one({'_id': file_id})                
-                if result_media1:
-                    await collection1.collection.delete_one({'_id': file_id})               
-                    deleted_count += 1                
-                    if deleted_count % 100 == 0:
-                        batch_size += 1
-                        await ok.edit(f'<b>Processing: Deleted {deleted_count} files in {batch_size} batches.</b>')
-        return deleted_count, batch_size
-    # Get all four collections
-    media1_collection = Media2
-    media2_collection = Media3
-    media3_collection = Media4
-    media4_collection = Media5
-    
-    # Get all files from each collection
-    all_files_media1 = await media1_collection.find({}, {"file_id": 1, "file_size": 1}).to_list(length=None)
-    all_files_media2 = await media2_collection.find({}, {"file_id": 1, "file_size": 1}).to_list(length=None)
-    all_files_media3 = await media3_collection.find({}, {"file_id": 1, "file_size": 1}).to_list(length=None)
-    all_files_media4 = await media4_collection.find({}, {"file_id": 1, "file_size": 1}).to_list(length=None)
-    
-    # Combine files from all collections
-    all_files = all_files_media1 + all_files_media2 + all_files_media3+ all_files_media4
-
-    # Remove duplicate files while keeping one copy
-    unique_files = {}
-    for file_info in all_files:
-        file_id = file_info["file_id"]
-        file_size = file_info["file_size"]
-        if file_size not in unique_files:
-            unique_files[file_size] = file_id
-
-    # Delete duplicate files from each collection
-    deleted_count, batch_size = await remove_duplicates(media1_collection, unique_files, ok, deleted_count, batch_size)
-    deleted_count = deleted_count
-    batch_size = batch_size
-    deleted_count, batch_size = await remove_duplicates(media2_collection, unique_files, ok, deleted_count, batch_size)
-    deleted_count = deleted_count
-    batch_size = batch_size
-    deleted_count, batch_size = await remove_duplicates(media3_collection, unique_files, ok, deleted_count, batch_size)
-    deleted_count = deleted_count
-    batch_size = batch_size
-    deleted_count, batch_size = await remove_duplicates(media4_collection, unique_files, ok, deleted_count, batch_size)
-    deleted_count = deleted_count
-    batch_size = batch_size
-    
-    # Send a final message indicating the total number of duplicates deleted
-    await message.reply(f"Deleted {deleted_count} duplicate files. in {batch_size} batches")
