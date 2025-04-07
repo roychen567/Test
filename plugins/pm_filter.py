@@ -211,7 +211,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             
     elif query.data == "start":
         buttons = [[
-            InlineKeyboardButton('➕ 𝙰𝚍𝚍 𝙼𝚎 𝚃𝚘 𝚈𝚘𝚞𝚛 𝙶𝚛𝚘𝚞𝚙𝚜 ➕', url=f'http://t.me/{temp.U_NAME}?startgroup=true')
+            InlineKeyboardButton('ᴀᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘ', url=f'http://t.me/{temp.U_NAME}?startgroup=true')
         ],[
             InlineKeyboardButton('ᴍᴀɪɴ ᴄʜᴀɴɴᴇʟ', url='https://t.me/+WlRlRi4MNF1mOGQ9'),
             InlineKeyboardButton('ɢʀᴏᴜᴘ', url='https://t.me/+V4B2j2y_UGViYWVl')
@@ -227,6 +227,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         )
         await query.answer('Piracy Is Crime')    
     elif query.data == "stats":
+        await query.message.edit_text(text="ᴘʟᴇᴀꜱʀ ᴡᴀɪᴛ ꜱᴛᴀᴛᴜꜱ ɪꜱ ʟᴏᴀᴅɪɴɢ...")
         buttons = [[
             InlineKeyboardButton('👩‍🦯 Back', callback_data='start')
         ]]
