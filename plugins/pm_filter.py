@@ -239,7 +239,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         stats2 = await clientDB2.command('dbStats')
         used_dbSize2 = (stats2['dataSize']/(1024*1024))+(stats2['indexSize']/(1024*1024))
         await query.message.edit_text(
-            text=script.STATUS_TXT.format(tot1, users, chats, round(used_dbSize, 2), round(used_dbSize2, 2))
+            text=script.STATUS_TXT.format(tot1, users, chats, round(used_dbSize, 2), round(used_dbSize2, 2)),
             reply_markup=reply_markup,
             parse_mode=enums.ParseMode.HTML
         )
