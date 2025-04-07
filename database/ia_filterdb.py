@@ -99,16 +99,8 @@ async def get_search_results(query, file_type=None, max_results=8, offset=0, fil
     if offset < 0:
         offset = 0
 
-    interleaved_files = []
-    seen_file_ids = set()
-
-    for file in files_media:
-        if file['file_id'] not in seen_file_ids:
-            interleaved_files.append(file)
-            seen_file_ids.add(file['file_id'])
-
-    files = interleaved_files[offset:offset + max_results]
-    total_results = len(interleaved_files)
+    files = files_media[offset:offset + max_results]
+    total_results = len(files_media)
     next_offset = offset + len(files)
 
     if next_offset < total_results:
@@ -140,29 +132,13 @@ async def get_bad_files(query, file_type=None, filter=False):
     if file_type:
         filter['file_type'] = file_type
 
-    total_results_media1 = await Media2.count_documents(filter)
-    total_results_media2 = await Media3.count_documents(filter)
-    total_results_media3 = await Media4.count_documents(filter)
-    total_results_media4 = await Media5.count_documents(filter)
-    total_results = total_results_media1 + total_results_media2 + total_results_media3 + total_results_media4
-
+    total_results = await Media2.count_documents(filter)
+    
     cursor_media1 = Media2.find(filter)
     cursor_media1.sort('$natural', -1)
-    files_media1 = await cursor_media1.to_list(length=total_results_media1)
+    files_media1 = await cursor_media1.to_list(length=total_results)
 
-    cursor_media2 = Media3.find(filter)
-    cursor_media2.sort('$natural', -1)
-    files_media2 = await cursor_media2.to_list(length=total_results_media2)
-
-    cursor_media3 = Media4.find(filter)
-    cursor_media3.sort('$natural', -1)
-    files_media3 = await cursor_media3.to_list(length=total_results_media3)
-
-    cursor_media4 = Media5.find(filter)
-    cursor_media4.sort('$natural', -1)
-    files_media4 = await cursor_media4.to_list(length=total_results_media4)
-    
-    return files_media1, files_media2, files_media3, files_media4, total_results
+    return files_media1, total_results
     
 async def get_file_details(query):
     filter = {'file_id': query}
@@ -170,18 +146,6 @@ async def get_file_details(query):
     filedetails = await cursor.to_list(length=1)
     if filedetails:
         return filedetails
-    cursor_media2 = Media3.find(filter)
-    filedetails_media2 = await cursor_media2.to_list(length=1)
-    if filedetails_media2:
-        return filedetails_media2
-    cursor_media3 = Media4.find(filter)
-    filedetails_media3 = await cursor_media3.to_list(length=1)
-    if filedetails_media3:
-        return filedetails_media3
-    cursor_media4 = Media5.find(filter)
-    filedetails_media4 = await cursor_media4.to_list(length=1)
-    if filedetails_media4:
-        return filedetails_media4
 
 def encode_file_id(s: bytes) -> str:
     r = b""
