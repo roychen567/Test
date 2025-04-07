@@ -21,13 +21,11 @@ should_run_check_loop_sub = False
 should_run_check_loop_sub1 = False
 BATCH_FILES = {}
 
-DELETE_TXT = """𝗪𝗮𝗿𝗻𝗶𝗻𝗴 ⚠️
+DELETE_TXT = """❗️❗️❗️IMPORTANT❗️️❗️❗️
 
-𝖥𝗂𝗅𝖾𝗌 𝖲𝖾𝗇𝖽 𝖶𝗂𝗅𝗅 𝖡𝖾 𝖣𝖾𝗅𝖾𝗍𝖾𝖽 𝖠𝖿𝗍𝖾𝗋 5 𝖬𝗂𝗇𝗎𝗍𝖾𝗌 𝖳𝗈 𝖠𝗏𝗈𝗂𝖽 𝖢𝗈𝗉𝗒𝗋𝗂𝗀𝗁𝗍. 𝖲𝗈 𝖲𝖺𝗏𝖾 𝖳𝗁𝖾 𝖥𝗂𝗅𝖾 𝖳𝗈 𝖲𝖺𝗏𝖾𝖽 𝖬𝖾𝗌𝗌𝖺𝗀𝖾𝗌
+ᴛʜɪs ᴍᴇssᴀɢᴇ ᴡɪʟʟ ʙᴇ ᴅᴇʟᴇᴛᴇᴅ ɪɴ 5 mins 🫥 (ᴅᴜᴇ ᴛᴏ ᴄᴏᴘʏʀɪɢʜᴛ ɪssᴜᴇs).
 
-അറിയിപ്പ് ⚠️
-
-അയച്ച ഫയലുകൾ കോപ്പി റൈറ്റ് ഒഴിവാക്കാൻ വേണ്ടി 5 മിനിറ്റിനു ശേഷം ഡിലീറ്റ് ചെയ്യുന്നതാണ്. അതുകൊണ്ട് ഫയൽ സേവ്ഡ് മെസ്സേജ്സിലേക്ക് മാറ്റേണ്ടതാണ്."""
+ᴘʟᴇᴀsᴇ ғᴏʀᴡᴀʀᴅ ᴛʜɪs ᴍᴇssᴀɢᴇ ᴛᴏ ʏᴏᴜʀ sᴀᴠᴇᴅ ᴍᴇssᴀɢᴇs ᴏʀ ᴀɴʏ ᴘʀɪᴠᴀᴛᴇ ᴄʜᴀᴛ."""
 
 async def delete_messages(client, messages):
     for msg in messages:
@@ -213,10 +211,14 @@ async def start(client, message):
             )
     except Exception as e:
         print(e)
-    replied = ok.id        
-    await message.delete()    
-    await client.schedule.add_job(ok.delete, 'date', run_date=datetime.now() + timedelta(seconds=PM_DEL))
-
+    da = await ok.reply(f"```{DELETE_TXT}```")
+    await message.delete()
+    await asyncio.sleep(300)
+    await ok.delete()
+    await da.delete()
+    btn = [[InlineKeyboardButton(text="ɢᴇᴛ ꜰɪʟᴇ ᴀɢᴀɪɴ", callback_data=f'{pre}#{file.file_id}')]]
+    await message.reply(text="✅ ʏᴏᴜʀ ᴍᴇssᴀɢᴇ ɪs sᴜᴄᴄᴇssғᴜʟʟʏ ᴅᴇʟᴇᴛᴇᴅ ɪғ ʏᴏᴜ ᴡᴀɴᴛ ᴀɢᴀɪɴ ᴛʜᴇɴ ᴄʟɪᴄᴋ ᴏɴ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴ", reply_markup=InlineKeyboardMarkup(btn))
+        
 @Client.on_message(filters.command('channel') & filters.user(ADMINS))
 async def channel_info(bot, message):
            
