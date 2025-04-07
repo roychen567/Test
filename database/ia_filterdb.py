@@ -93,10 +93,8 @@ async def get_search_results(query, file_type=None, max_results=8, offset=0, fil
     if file_type:
         filter_query['file_type'] = file_type
     
-    tasks = [Media.find(filter_query).sort('$natural', -1).to_list(length=48)]
+    files_media = Media.find(filter_query).sort('$natural', -1).to_list(length=48)
 
-    files_media = await asyncio.gather(*tasks)
-    
     if offset < 0:
         offset = 0
 
