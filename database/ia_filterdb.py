@@ -69,37 +69,45 @@ async def save_file(media):
             return True, 1
             
 async def get_search_results(query, file_type=None, max_results=8, offset=0, filter=False):
-    """For given query return (results, next_offset)"""
+    """For given query return (results, next_offset, total_results)"""
 
     query = query.strip()
 
     if not query:
         raw_pattern = '.'
     elif ' ' not in query:
-        raw_pattern = r'(\b|[\.\+\-_:]|\s|&)' + query + r'(\b|[\.\+\-_:]|\s|&)'
+        raw_pattern = r'(?i)(\b|[.\+\-_:]|\s|&)' + re.escape(query) + r'(\b|[.\+\-_:]|\s|&)'
     else:
-        raw_pattern = query.replace(' ', r'.*[&\s\.\+\-_()\[\]:]')
+        # Escape individual parts of the query and join with the wildcard
+        escaped_parts = [re.escape(part) for part in query.split()]
+        raw_pattern = r'(?i)' + r'.*[&\s\.\+\-_()\[\]:]'.join(escaped_parts)
 
     try:
-        regex = re.compile(raw_pattern, flags=re.IGNORECASE)
-    except:
+        regex = re.compile(raw_pattern)
+    except re.error as e:
+        print(f"Regex compilation error: {e}, pattern: {raw_pattern}")
         return [], '', 0
 
+    filter_query = {}
     if USE_CAPTION_FILTER:
-        filter_query = {'$or': [{'file_name': regex}, {'caption': regex}]}
+        filter_query['$or'] = [{'file_name': regex}, {'caption': regex}]
     else:
-        filter_query = {'file_name': regex}
+        filter_query['file_name'] = regex
 
     if file_type:
         filter_query['file_type'] = file_type
-    
-    files_media = Media.find(filter_query).sort('$natural', -1).to_list(length=48)
+
+    try:
+        files_media = await Media.find(filter_query).sort('$natural', -1).to_list(length=48) # Fetch all matching documents
+    except Exception as e:
+        print(f"Error during MongoDB query: {e}, query: {filter_query}")
+        return [], '', 0
 
     if offset < 0:
         offset = 0
 
-    files = files_media[offset:offset + max_results]
     total_results = len(files_media)
+    files = files_media[offset:offset + max_results]
     next_offset = offset + len(files)
 
     if next_offset < total_results:
