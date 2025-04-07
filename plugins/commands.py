@@ -71,7 +71,7 @@ async def start(client, message):
             InlineKeyboardButton('stats', callback_data='stats')
         ]]
         await message.reply_photo(
-            photo="https://graph.org/file/475f712b3da3b2625dd0a-c7641db29a39f83f50.jpg",
+            photo="https://envs.sh/ZkV.jpg",
             caption=script.START_TXT.format(message.from_user.mention, temp.U_NAME, temp.B_NAME),
             reply_markup=reply_markup,
             parse_mode=enums.ParseMode.HTML
@@ -155,7 +155,7 @@ async def start(client, message):
         ]]
         reply_markup = InlineKeyboardMarkup(buttons)
         await message.reply_photo(
-            photo="https://graph.org/file/475f712b3da3b2625dd0a-c7641db29a39f83f50.jpg",
+            photo="https://envs.sh/ZkV.jpg",
             caption=script.START_TXT.format(message.from_user.mention, temp.U_NAME, temp.B_NAME),
             reply_markup=reply_markup,
             parse_mode=enums.ParseMode.HTML
