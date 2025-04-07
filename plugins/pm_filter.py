@@ -32,16 +32,9 @@ async def give_filter(client, message):
         
 @Client.on_message(filters.private & filters.incoming)
 async def give_fpm(client, message):
-    g = await global_filters(client, message)
-    if g == False:
-        content = message.text
-        user_id = message.from_user.id
-        if content.startswith("/") or content.startswith("#"): return  # ignore commands and hashtags
-        if user_id in ADMINS: return # ignore admins
-        await message.reply_text(
-             text="<b>ʜᴇʏ ᴅᴜᴅᴇ 😍 ,\n\nʏᴏᴜ ᴄᴀɴ'ᴛ ɢᴇᴛ ᴍᴏᴠɪᴇs ꜰʀᴏᴍ ʜᴇʀᴇ. ʀᴇǫᴜᴇsᴛ ᴏɴ ᴏᴜʀ <a href=https://t.me/Cinema_Kottaka_updates>ᴍᴏᴠɪᴇ ɢʀᴏᴜᴘ</a> ᴏʀ ᴄʟɪᴄᴋ ʀᴇǫᴜᴇsᴛ ʜᴇʀᴇ ʙᴜᴛᴛᴏɴ ʙᴇʟᴏᴡ👇</b>",   
-             reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("📝 ʀᴇǫᴜᴇsᴛ ʜᴇʀᴇ ", url=f"t.me/cinema_kottaka_group")]]))    
-        return 
+    ok = await global_filters(client, message)
+    if ok == False:
+        await auto_filter(client, message)   
   
 @Client.on_callback_query(filters.regex(r"^next"))
 async def next_page(bot, query):
