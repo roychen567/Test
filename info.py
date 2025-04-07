@@ -31,14 +31,11 @@ auth_grp = environ.get('AUTH_GROUP')
 AUTH_GROUPS = [int(ch) for ch in auth_grp.split()] if auth_grp else None
 
 # MongoDB information
-DATABASE_NAME = environ.get('DATABASE_NAME', "vijay:vijay")
-COLLECTION_NAME = environ.get('COLLECTION_NAME', 'vijay_files')
-DATABASE_URI = environ.get('DATABASE_URI', "mongodb+srv://vijayusers:vijayusers@cluster0.wgqtl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
-DATABASE_URI2 = environ.get('DATABASE_URI2', "mongodb+srv://vijayautofilter:vijayautofilter@cluster0.upqu2.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
-DATABASE_URI3 = environ.get('DATABASE_URI3', "mongodb+srv://vijayautofilterdb1:vijayautofilterdb1@cluster0.cwjkb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
-DATABASE_URI4 = environ.get('DATABASE_URI4', "mongodb+srv://vijayautofilterdb2:vijayautofilterdb2@cluster0.lajkb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
-DATABASE_URI5 = environ.get('DATABASE_URI5', "mongodb+srv://vijayautofilterdb3:vijayautofilterdb3@cluster0.ynzkh.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
-                            
+DATABASE_NAME = environ.get('DATABASE_NAME', "")
+COLLECTION_NAME = environ.get('COLLECTION_NAME', '')
+DATABASE_URI = environ.get('DATABASE_URI', "")
+DATABASE_URI2 = environ.get('DATABASE_URI2', "")
+
 # FSUB
 auth_channel = environ.get('AUTH_CHANNEL')
 AUTH_CHANNEL = int(auth_channel) if auth_channel and id_pattern.search(auth_channel) else None
