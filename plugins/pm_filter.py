@@ -12,7 +12,7 @@ from pyrogram import Client, filters, enums
 from pyrogram.errors import FloodWait, UserIsBlocked, MessageNotModified, PeerIdInvalid
 from utils import get_size, is_subscribed, temp
 from database.users_chats_db import db
-from database.ia_filterdb import Media, get_file_details, unpack_new_file_id, get_search_results, get_bad_files, db as clientDB, db2 as clientDB2, db3 as clientDB3
+from database.ia_filterdb import Media, Media2, Media3, get_file_details, unpack_new_file_id, get_search_results, get_bad_files, get_total_files_count, db as clientDB, db2 as clientDB2, db3 as clientDB3
 from database.gfilters_mdb import find_gfilter, get_gfilters
 import logging
 from datetime import datetime, timedelta
@@ -232,7 +232,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             InlineKeyboardButton('👩‍🦯 Back', callback_data='start')
         ]]
         reply_markup = InlineKeyboardMarkup(buttons)
-        tot1 = await Media.count_documents()
+        tot1 = await get_total_files_count()
         users = await db.total_users_count()
         chats = await db.total_chat_count()
         stats = await clientDB.command('dbStats')

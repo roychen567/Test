@@ -39,6 +39,38 @@ class Media(Document):
     class Meta:
         indexes = ('$file_name', )
         collection_name = COLLECTION_NAME
+
+# Create separate instances for each database
+instance2 = Instance.from_db(db2)
+instance3 = Instance.from_db(db3)
+
+@instance2.register
+class Media2(Document):
+    file_id = fields.StrField(attribute='_id')
+    file_ref = fields.StrField(allow_none=True)
+    file_name = fields.StrField(required=True)
+    file_size = fields.IntField(required=True)
+    file_type = fields.StrField(allow_none=True)
+    mime_type = fields.StrField(allow_none=True)
+    caption = fields.StrField(allow_none=True)
+    
+    class Meta:
+        indexes = ('$file_name', )
+        collection_name = COLLECTION_NAME
+
+@instance3.register
+class Media3(Document):
+    file_id = fields.StrField(attribute='_id')
+    file_ref = fields.StrField(allow_none=True)
+    file_name = fields.StrField(required=True)
+    file_size = fields.IntField(required=True)
+    file_type = fields.StrField(allow_none=True)
+    mime_type = fields.StrField(allow_none=True)
+    caption = fields.StrField(allow_none=True)
+    
+    class Meta:
+        indexes = ('$file_name', )
+        collection_name = COLLECTION_NAME
         
 async def save_file(media):
     """Save file in database"""
@@ -193,6 +225,17 @@ def unpack_new_file_id(new_file_id):
     )
     file_ref = encode_file_ref(decoded.file_reference)
     return file_id, file_ref
+
+async def get_total_files_count():
+    """Get total files count from all three databases"""
+    try:
+        count1 = await Media.count_documents()
+        count2 = await Media2.count_documents()
+        count3 = await Media3.count_documents()
+        return count1 + count2 + count3
+    except Exception as e:
+        logger.exception(f"Error counting files: {e}")
+        return 0
 
 def get_readable_time(seconds) -> str:
     """
