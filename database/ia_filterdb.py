@@ -8,7 +8,7 @@ from pymongo.errors import DuplicateKeyError
 from umongo import Instance, Document, fields
 from motor.motor_asyncio import AsyncIOMotorClient
 from marshmallow.exceptions import ValidationError
-from info import DATABASE_URI2, DATABASE_NAME, DATABASE_URI, COLLECTION_NAME, USE_CAPTION_FILTER
+from info import DATABASE_URI2, DATABASE_NAME, DATABASE_URI, DATABASE_URI3, COLLECTION_NAME, USE_CAPTION_FILTER
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -20,6 +20,10 @@ instance = Instance.from_db(db)
 client2 = AsyncIOMotorClient(DATABASE_URI2)
 db2 = client2[DATABASE_NAME]
 instance = Instance.from_db(db2)
+
+client3 = AsyncIOMotorClient(DATABASE_URI3)
+db3 = client3[DATABASE_NAME]
+instance = Instance.from_db(db3)
 
 
 @instance.register

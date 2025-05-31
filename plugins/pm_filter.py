@@ -12,7 +12,7 @@ from pyrogram import Client, filters, enums
 from pyrogram.errors import FloodWait, UserIsBlocked, MessageNotModified, PeerIdInvalid
 from utils import get_size, is_subscribed, temp
 from database.users_chats_db import db
-from database.ia_filterdb import get_file_details, get_search_results, get_bad_files, Media, db as clientDB, db2 as clientDB2
+from database.ia_filterdb import Media, get_file_details, unpack_new_file_id, get_search_results, get_bad_files, db as clientDB, db2 as clientDB2, db3 as clientDB3
 from database.gfilters_mdb import find_gfilter, get_gfilters
 import logging
 from datetime import datetime, timedelta
@@ -29,13 +29,13 @@ async def give_filter(client, message):
     ok = await global_filters(client, message)
     if ok == False:
         await auto_filter(client, message)       
-        
+
 @Client.on_message(filters.private & filters.incoming)
 async def give_fpm(client, message):
     ok = await global_filters(client, message)
     if ok == False:
         await auto_filter(client, message)   
-  
+
 @Client.on_callback_query(filters.regex(r"^next"))
 async def next_page(bot, query):
     ident, req, key, offset = query.data.split("_")
@@ -66,7 +66,7 @@ async def next_page(bot, query):
         ]
         for file in files
     ]
-    
+
     if 0 < offset <= 8:
         off_set = 0
     elif offset == 0:
@@ -208,7 +208,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
              await query.message.edit_text(f'Eʀʀᴏʀ: {e}')
         else:
              await query.message.edit_text(f"<b>Pʀᴏᴄᴇss Cᴏᴍᴘʟᴇᴛᴇᴅ ғᴏʀ ғɪʟᴇ ᴅᴇʟᴇᴛɪᴏɴ !\n\nSᴜᴄᴄᴇssғᴜʟʟʏ ᴅᴇʟᴇᴛᴇᴅ {str(deleted)} ғɪʟᴇs ғʀᴏᴍ DB ғᴏʀ ʏᴏᴜʀ ᴏ̨ᴜᴇʀʏ {keyword}.</b>")
-            
+
     elif query.data == "start":
         buttons = [[
             InlineKeyboardButton('ᴀᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘ', url=f'http://t.me/{temp.U_NAME}?startgroup=true')
@@ -239,12 +239,14 @@ async def cb_handler(client: Client, query: CallbackQuery):
         used_dbSize = (stats['dataSize']/(1024*1024))+(stats['indexSize']/(1024*1024))        
         stats2 = await clientDB2.command('dbStats')
         used_dbSize2 = (stats2['dataSize']/(1024*1024))+(stats2['indexSize']/(1024*1024))
+        stats3 = await clientDB3.command('dbStats')
+        used_dbSize3 = (stats3['dataSize']/(1024*1024))+(stats3['indexSize']/(1024*1024))
         await query.message.edit_text(
-            text=script.STATUS_TXT.format(tot1, users, chats, round(used_dbSize, 2), round(used_dbSize2, 2)),
+            text=script.STATUS_TXT.format(tot1, users, chats, round(used_dbSize, 2), round(used_dbSize2, 2), round(used_dbSize3, 2)),
             reply_markup=reply_markup,
             parse_mode=enums.ParseMode.HTML
         )
-    
+
 async def auto_filter(client, msg, spoll=False):
     if not spoll:
         message = msg
@@ -292,7 +294,7 @@ async def auto_filter(client, msg, spoll=False):
     cap = f"Here is what i found {total_results} for your query {search}"
     ok = await message.reply_text(cap, reply_markup=InlineKeyboardMarkup(btn), parse_mode=None, disable_web_page_preview=True)
     await client.schedule.add_job(ok.delete, 'date', run_date=datetime.now() + timedelta(seconds=AUTO_DEL))
-        
+
 async def global_filters(client, message, text=False):
     group_id = message.chat.id
     name = text or message.text

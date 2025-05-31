@@ -35,6 +35,7 @@ DATABASE_NAME = environ.get('DATABASE_NAME', "Roy")
 COLLECTION_NAME = environ.get('COLLECTION_NAME', 'andi')
 DATABASE_URI = environ.get('DATABASE_URI', "mongodb+srv://Roy:Roy@alanwalker1.bv4gl.mongodb.net/?retryWrites=true&w=majority&appName=Alanwalker1")
 DATABASE_URI2 = environ.get('DATABASE_URI2', "mongodb+srv://Roy:Roy@alanwalker2.x9yrb.mongodb.net/?retryWrites=true&w=majority&appName=Alanwalker2")
+DATABASE_URI3 = environ.get('DATABASE_URI3', "mongodb+srv://roychen8900:roychen8900@testing3.xx84xv7.mongodb.net/?retryWrites=true&w=majority&appName=Testing3")
 
 # FSUB
 auth_channel = environ.get('AUTH_CHANNEL')
