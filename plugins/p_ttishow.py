@@ -3,7 +3,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram.errors.exceptions.bad_request_400 import MessageTooLong, PeerIdInvalid
 from info import ADMINS, LOG_CHANNEL, SUPPORT_CHAT, MELCOW_NEW_USERS
 from database.users_chats_db import db
-from database.ia_filterdb import Media, get_total_files_count, db as clientDB, db2 as clientDB2, db3 as clientDB3
+from database.ia_filterdb import Media, get_total_files_count, get_individual_db_counts, db as clientDB, db2 as clientDB2, db3 as clientDB3
 from utils import get_size, temp
 from Script import script
 from pyrogram.errors import ChatAdminRequired
@@ -130,6 +130,7 @@ async def re_enable_chat(bot, message):
 async def stats_command(bot, message):
     mlz = await message.reply("Loading Details....")
     tot1 = await get_total_files_count()
+    count1, count2, count3 = await get_individual_db_counts()
     users = await db.total_users_count()
     chats = await db.total_chat_count()
     stats = await clientDB.command('dbStats')
@@ -138,7 +139,7 @@ async def stats_command(bot, message):
     used_dbSize2 = (stats2['dataSize']/(1024*1024))+(stats2['indexSize']/(1024*1024))
     stats3 = await clientDB3.command('dbStats')
     used_dbSize3 = (stats3['dataSize']/(1024*1024))+(stats3['indexSize']/(1024*1024))
-    await mlz.edit(text=script.STATUS_TXT.format(tot1, users, chats, round(used_dbSize, 2), round(used_dbSize2, 2), round(used_dbSize3, 2)))
+    await mlz.edit(text=script.STATUS_TXT.format(tot1, users, chats, count1, round(used_dbSize, 2), count2, round(used_dbSize2, 2), count3, round(used_dbSize3, 2)))
     
 # a function for trespassing into others groups, Inspired by a Vazha
 # Not to be used , But Just to showcase his vazhatharam.

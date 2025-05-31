@@ -6,11 +6,11 @@ class script(object):
 𝙷𝙴𝚁𝙴 𝙸𝚂 𝚃𝙷𝙴 𝙷𝙴𝙻𝙿 𝙵𝙾𝚁 𝙼𝚈 𝙲𝙾𝙼𝙼𝙰𝙽𝙳𝚂."""
     ABOUT_TXT = """✯ 𝙼𝚈 𝙽𝙰𝙼𝙴: {}
 ✯ 𝙲𝚁𝙴𝙰𝚃𝙾𝚁: <a href=https://t.me/cinema_kottaka_updates>Cinema Kottaka GROUP</a>
-✯ 𝙻𝙸𝙱𝚁𝙰𝚁𝚈: 𝙿𝚈𝚁𝙾𝙶𝚁𝙰𝙼
-✯ 𝙻𝙰𝙽𝙶𝚄𝙰𝙶𝙴: 𝙿𝚈𝚃𝙷𝙾𝙽 𝟹
-✯ 𝙳𝙰𝚃𝙰 𝙱𝙰𝚂𝙴: 𝙼𝙾𝙽𝙶𝙾 𝙳𝙱
+✯ 𝙻𝙸𝙱𝚁𝙰𝚁𝚈: 𝙿𝚈𝚁𝙾𝙶𝚁ᴀᴍ
+✯ 𝙻ᴀɴɢᴜᴀɢᴇ: 𝙿𝚈𝚃𝙷𝙾𝙽 𝟹
+✯ 𝙳ᴀᴛᴀ 𝙱ᴀ𝚂𝙴: 𝙼𝙾𝙽𝙶𝙾 𝙳𝙱
 ✯ 𝙱𝙾𝚃 𝚂𝙴𝚁𝚅𝙴𝚁: 𝚅𝙿𝚂
-✯ 𝙱𝚄𝙸𝙻𝙳 𝚂𝚃𝙰𝚃𝚄𝚂: v1.0.1 [ 𝙱𝙴𝚃𝙰 ]"""
+✯ 𝙱ᴜɪʟ𝙳 𝚂ᴛᴀᴛᴜ𝚂: v1.0.1 [ 𝙱𝙴𝚃ᴀ ]"""
     SOURCE_TXT = """<b>NOTE:</b>
 - This is a open source project. 
 - Source - https://github.com/MrMKN/PROFESSOR-BOT 
@@ -97,14 +97,17 @@ This module only works for my admins
 
 𒆜  𝗗𝗕 1️⃣
 ╭ ▸ 𝖴𝗌𝖾𝗋𝗌 : <code>{}</code>
-├ ▸ 𝖢𝗁𝖺𝗍𝗌  : <code>{}</code>
+├ ▸ 𝖢𝗁𝖺𝗍𝗌  : <code>{}</code>
+├ ▸ 𝖥𝗂𝗅𝖾𝗌 : <code>{}</code>
 ╰ ▸ 𝖴𝗌𝖾𝖽 𝖲𝗍𝗈𝗋𝖺𝗀𝖾: <code>{}</code>MB
 
  𒆜 𝗗𝗕 2️⃣
-  ▸ 𝖴𝗌𝖾𝖽 𝖲𝗍𝗈𝗋𝖺𝗀𝖾: <code>{}</code>MB
+ ╭ ▸ 𝖥𝗂𝗅𝖾𝗌 : <code>{}</code>
+ ╰ ▸ 𝖴𝗌𝖾𝖽 𝖲𝗍𝗈𝗋𝖺𝗀𝖾: <code>{}</code>MB
 
  𒆜 𝗗𝗕 3️⃣
-  ▸ 𝖴𝗌𝖾𝖽 𝖲𝗍𝗈𝗋𝖺𝗀𝖾: <code>{}</code>MB
+ ╭ ▸ 𝖥𝗂𝗅𝖾𝗌 : <code>{}</code>
+ ╰ ▸ 𝖴𝗌𝖾𝖽 𝖲𝗍𝗈𝗋𝖺𝗀𝖾: <code>{}</code>MB
 """
 
     LOG_TEXT_G = """#NewGroup

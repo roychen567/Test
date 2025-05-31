@@ -12,7 +12,7 @@ from pyrogram import Client, filters, enums
 from pyrogram.errors import FloodWait, UserIsBlocked, MessageNotModified, PeerIdInvalid
 from utils import get_size, is_subscribed, temp
 from database.users_chats_db import db
-from database.ia_filterdb import Media, Media2, Media3, get_file_details, unpack_new_file_id, get_search_results, get_bad_files, get_total_files_count, db as clientDB, db2 as clientDB2, db3 as clientDB3
+from database.ia_filterdb import Media, Media2, Media3, get_file_details, unpack_new_file_id, get_search_results, get_bad_files, get_total_files_count, get_individual_db_counts, db as clientDB, db2 as clientDB2, db3 as clientDB3
 from database.gfilters_mdb import find_gfilter, get_gfilters
 import logging
 from datetime import datetime, timedelta
@@ -233,6 +233,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         ]]
         reply_markup = InlineKeyboardMarkup(buttons)
         tot1 = await get_total_files_count()
+        count1, count2, count3 = await get_individual_db_counts()
         users = await db.total_users_count()
         chats = await db.total_chat_count()
         stats = await clientDB.command('dbStats')
@@ -242,7 +243,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         stats3 = await clientDB3.command('dbStats')
         used_dbSize3 = (stats3['dataSize']/(1024*1024))+(stats3['indexSize']/(1024*1024))
         await query.message.edit_text(
-            text=script.STATUS_TXT.format(tot1, users, chats, round(used_dbSize, 2), round(used_dbSize2, 2), round(used_dbSize3, 2)),
+            text=script.STATUS_TXT.format(tot1, users, chats, count1, round(used_dbSize, 2), count2, round(used_dbSize2, 2), count3, round(used_dbSize3, 2)),
             reply_markup=reply_markup,
             parse_mode=enums.ParseMode.HTML
         )
