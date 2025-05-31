@@ -73,13 +73,14 @@ class Media3(Document):
         collection_name = COLLECTION_NAME
         
 async def save_file(media):
-    """Save file in database"""
+    """Save file in database - Only saves to 3rd database (Media3)"""
 
     # TODO: Find better way to get same file_id for same media to avoid duplicates
     file_id, file_ref = unpack_new_file_id(media.file_id)
     file_name = re.sub(r"(_|\+\s|\-|\.|\+|\[MM\]\s|\[MM\]_|\@TvSeriesBay|\@Cinema\sCompany|\@Cinema_Company|\@CC_|\@CC|\@MM_New|\@MM_Linkz|\@MOVIEHUNT|\@CL|\@FBM|\@CKMSERIES|www_DVDWap_Com_|MLM|\@WMR|\[CF\]\s|\[CF\]|\@IndianMoviez|\@tamil_mm|\@infotainmentmedia|\@trolldcompany|\@Rarefilms|\@yamandanmovies|\[YM\]|\@Mallu_Movies|\@YTSLT|\@DailyMovieZhunt|\@I_M_D_B|\@CC_All|\@PM_Old|Dvdworld|\[KMH\]|\@FBM_HW|\@Film_Kottaka|\@CC_X265|\@CelluloidCineClub|\@cinemaheist|\@telugu_moviez|\@CR_Rockers|\@CCineClub|KC_|\[KC\])", " ", str(media.file_name))   
     try:
-        file = Media(
+        # Only save to the 3rd database (Media3)
+        file = Media3(
             file_id=file_id,
             file_ref=file_ref,
             file_name=file_name,
@@ -101,7 +102,7 @@ async def save_file(media):
 
             return False, 0
         else:
-            logger.info(f'{getattr(media, "file_name", "NO_FILE")} is saved to database')
+            logger.info(f'{getattr(media, "file_name", "NO_FILE")} is saved to 3rd database')
             return True, 1
             
 async def get_search_results(query, file_type=None, max_results=8, offset=0, filter=False):
@@ -134,7 +135,17 @@ async def get_search_results(query, file_type=None, max_results=8, offset=0, fil
         filter_query['file_type'] = file_type
 
     try:
-        files_media = await Media.find(filter_query).sort('$natural', -1).to_list(length=48) # Fetch all matching documents
+        # Search in all three databases
+        files_media1 = await Media.find(filter_query).sort('$natural', -1).to_list(length=48)
+        files_media2 = await Media2.find(filter_query).sort('$natural', -1).to_list(length=48)
+        files_media3 = await Media3.find(filter_query).sort('$natural', -1).to_list(length=48)
+        
+        # Combine results from all databases
+        files_media = files_media1 + files_media2 + files_media3
+        
+        # Sort combined results by natural order (newest first)
+        files_media.sort(key=lambda x: x.file_id, reverse=True)
+        
     except Exception as e:
         print(f"Error during MongoDB query: {e}, query: {filter_query}")
         return [], '', 0
@@ -175,20 +186,49 @@ async def get_bad_files(query, file_type=None, filter=False):
     if file_type:
         filter['file_type'] = file_type
 
-    total_results = await Media.count_documents(filter)
+    # Get results from all three databases
+    total_results1 = await Media.count_documents(filter)
+    total_results2 = await Media2.count_documents(filter)
+    total_results3 = await Media3.count_documents(filter)
+    total_results = total_results1 + total_results2 + total_results3
     
     cursor_media1 = Media.find(filter)
     cursor_media1.sort('$natural', -1)
-    files_media1 = await cursor_media1.to_list(length=total_results)
+    files_media1 = await cursor_media1.to_list(length=total_results1)
+    
+    cursor_media2 = Media2.find(filter)
+    cursor_media2.sort('$natural', -1)
+    files_media2 = await cursor_media2.to_list(length=total_results2)
+    
+    cursor_media3 = Media3.find(filter)
+    cursor_media3.sort('$natural', -1)
+    files_media3 = await cursor_media3.to_list(length=total_results3)
+    
+    # Combine results from all databases
+    all_files = files_media1 + files_media2 + files_media3
 
-    return files_media1, total_results
+    return all_files, total_results
     
 async def get_file_details(query):
     filter = {'file_id': query}
-    cursor = Media.find(filter)
-    filedetails = await cursor.to_list(length=1)
-    if filedetails:
-        return filedetails
+    
+    # Search in all three databases
+    cursor1 = Media.find(filter)
+    filedetails1 = await cursor1.to_list(length=1)
+    if filedetails1:
+        return filedetails1
+    
+    cursor2 = Media2.find(filter)
+    filedetails2 = await cursor2.to_list(length=1)
+    if filedetails2:
+        return filedetails2
+        
+    cursor3 = Media3.find(filter)
+    filedetails3 = await cursor3.to_list(length=1)
+    if filedetails3:
+        return filedetails3
+    
+    return None
 
 def encode_file_id(s: bytes) -> str:
     r = b""
