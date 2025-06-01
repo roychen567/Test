@@ -317,6 +317,34 @@ async def delete_all_index_confirm(bot, message):
     await message.answer('Piracy Is Crime')
     await message.message.edit('Succesfully Deleted All The Indexed Files.')
 
+@Client.on_message(filters.command('deletedb1') & filters.user(ADMINS))
+async def delete_db1_files(bot, message):
+    await message.reply_text(
+        'This will delete all files from DB1 only (users data will remain safe).\nDo you want to continue??',
+        reply_markup=InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(
+                        text="YES", callback_data="delete_db1_confirm"
+                    )
+                ],
+                [
+                    InlineKeyboardButton(
+                        text="CANCEL", callback_data="close_data"
+                    )
+                ],
+            ]
+        ),
+        quote=True,
+    )
+
+@Client.on_callback_query(filters.regex(r'^delete_db1_confirm'))
+async def delete_db1_files_confirm(bot, message):
+    # Only delete Media collection from DB1, not user data
+    await Media.collection.drop()
+    await message.answer('DB1 Files Deleted')
+    await message.message.edit('Successfully Deleted All Files From DB1 Only.\nUser data and other databases remain intact.')
+
 @Client.on_message(filters.command('restart') & filters.user(ADMINS))
 async def restart(b, m):
     if os.path.exists(".git"):
