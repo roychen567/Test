@@ -340,8 +340,14 @@ async def delete_db1_files(bot, message):
 
 @Client.on_callback_query(filters.regex(r'^delete_db1_confirm'))
 async def delete_db1_files_confirm(bot, message):
-    # Only delete Media collection from DB1, not user data
-    await Media.collection.drop()
+    # Import the specific database clients to ensure we're targeting the right one
+    from database.ia_filterdb import client, DATABASE_NAME, COLLECTION_NAME
+    
+    # Only delete from the first database (DB1)
+    db1 = client[DATABASE_NAME]
+    collection_db1 = db1[COLLECTION_NAME]
+    await collection_db1.drop()
+    
     await message.answer('DB1 Files Deleted')
     await message.message.edit('Successfully Deleted All Files From DB1 Only.\nUser data and other databases remain intact.')
 
