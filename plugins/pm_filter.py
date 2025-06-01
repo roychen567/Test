@@ -12,7 +12,9 @@ from pyrogram import Client, filters, enums
 from pyrogram.errors import FloodWait, UserIsBlocked, MessageNotModified, PeerIdInvalid
 from utils import get_size, is_subscribed, temp
 from database.users_chats_db import db
-from database.ia_filterdb import Media, Media2, Media3, get_file_details, unpack_new_file_id, get_search_results, get_bad_files, get_total_files_count, get_individual_db_counts, db as clientDB, db2 as clientDB2, db3 as clientDB3
+from database.ia_filterdb import Media, Media2, Media3, get_file_details, unpack_new_file_id, get_search_results, get_bad_files, get_total_files_count, get_individual_db_counts
+from database.users_chats_db import db
+from info import DATABASE_NAME
 from database.gfilters_mdb import find_gfilter, get_gfilters
 import logging
 from datetime import datetime, timedelta
@@ -236,7 +238,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         tot1 = count1 + count2 + count3  # Calculate total from individual counts
         users = await db.total_users_count()
         chats = await db.total_chat_count()
-        
+
         # Get storage stats for each database
         stats = await clientDB.command('dbStats')
         used_dbSize = (stats['dataSize']/(1024*1024))+(stats['indexSize']/(1024*1024))        
@@ -244,7 +246,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         used_dbSize2 = (stats2['dataSize']/(1024*1024))+(stats2['indexSize']/(1024*1024))
         stats3 = await clientDB3.command('dbStats')
         used_dbSize3 = (stats3['dataSize']/(1024*1024))+(stats3['indexSize']/(1024*1024))
-        
+
         await query.message.edit_text(
             text=script.STATUS_TXT.format(
                 int(tot1), int(users), int(chats), 
