@@ -12,8 +12,7 @@ from pyrogram import Client, filters, enums
 from pyrogram.errors import FloodWait, UserIsBlocked, MessageNotModified, PeerIdInvalid
 from utils import get_size, is_subscribed, temp
 from database.users_chats_db import db
-from database.ia_filterdb import Media, Media2, Media3, get_file_details, unpack_new_file_id, get_search_results, get_bad_files, get_total_files_count, get_individual_db_counts
-from database.users_chats_db import db
+from database.ia_filterdb import Media, Media2, Media3, get_file_details, unpack_new_file_id, get_search_results, get_bad_files, get_total_files_count, get_individual_db_counts, client as clientDB, client2 as clientDB2, client3 as clientDB3
 from info import DATABASE_NAME
 from database.gfilters_mdb import find_gfilter, get_gfilters
 import logging
