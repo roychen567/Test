@@ -228,7 +228,28 @@ async def cb_handler(client: Client, query: CallbackQuery):
         )
         await query.answer('Piracy Is Crime')    
     elif query.data == "stats":
-        await query.message.edit_text(text="ᴘʟᴇᴀꜱʀ ᴡᴀɪᴛ ꜱᴛᴀᴛᴜꜱ ɪꜱ ʟᴏᴀᴅɪɴɢ...")
+        count1, count2, count3 = await get_individual_db_counts()
+        tot1 = count1 + count2 + count3  # Calculate total from individual counts
+        users = await db.total_users_count()
+        chats = await db.total_chat_count()
+        
+        # Get storage stats for each database
+        stats = await clientDB.command('dbStats')
+        used_dbSize = (stats['dataSize']/(1024*1024))+(stats['indexSize']/(1024*1024))        
+        stats2 = await clientDB2.command('dbStats')
+        used_dbSize2 = (stats2['dataSize']/(1024*1024))+(stats2['indexSize']/(1024*1024))
+        stats3 = await clientDB3.command('dbStats')
+        used_dbSize3 = (stats3['dataSize']/(1024*1024))+(stats3['indexSize']/(1024*1024))
+        
+        await query.message.edit_text(
+            text=script.STATUS_TXT.format(
+                int(tot1), int(users), int(chats), 
+                int(count1), round(used_dbSize, 2), 
+                int(count2), round(used_dbSize2, 2), 
+                int(count3), round(used_dbSize3, 2)
+            )
+        )
+        await query.answer('ʏᴏᴜʀ sᴛᴀᴛꜱ ɪꜱ ʜᴇʀᴇ!')ᴛ ꜱᴛᴀᴛᴜꜱ ɪꜱ ʟᴏᴀᴅɪɴɢ...")
         buttons = [[
             InlineKeyboardButton('👩‍🦯 Back', callback_data='start')
         ]]
