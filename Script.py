@@ -98,15 +98,16 @@ This module only works for my admins
 𒆜  𝗗𝗕 1️⃣
 ╭ ▸ 𝖴𝗌𝖾𝗋𝗌 : <code>{}</code>
 ├ ▸ 𝖢𝗁𝖺𝗍𝗌  : <code>{}</code>
-╰ ▸ 𝖴𝗌𝖾𝖽 𝖲𝗍𝗈𝗋𝖺𝗀𝖾: <code>{}</code>MB
+├ ▸ 𝖥𝗂𝗅𝖾𝗌 : <code>{}</code>
+╰ ▸ 𝖴𝗌𝖾𝖽 𝖲𝗍𝗈𝗋𝖺𝗀𝖾: <code>{}</code> MB
 
  𒆜 𝗗𝗕 2️⃣
  ╭ ▸ 𝖥𝗂𝗅𝖾𝗌 : <code>{}</code>
- ╰ ▸ 𝖴𝗌𝖾𝖽 𝖲𝗍𝗈𝗋𝖺𝗀𝖾: <code>{}</code>MB
+ ╰ ▸ 𝖴𝗌𝖾𝖽 𝖲𝗍𝗈𝗋𝖺𝗀𝖾: <code>{}</code> MB
 
  𒆜 𝗗𝗕 3️⃣
  ╭ ▸ 𝖥𝗂𝗅𝖾𝗌 : <code>{}</code>
- ╰ ▸ 𝖴𝗌𝖾𝖽 𝖲𝗍𝗈𝗋𝖺𝗀𝖾: <code>{}</code>MB
+ ╰ ▸ 𝖴𝗌𝖾𝖽 𝖲𝗍𝗈𝗋𝖺𝗀𝖾: <code>{}</code> MB
 """
 
     LOG_TEXT_G = """#NewGroup

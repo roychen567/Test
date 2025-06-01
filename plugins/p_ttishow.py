@@ -129,17 +129,25 @@ async def re_enable_chat(bot, message):
 @Client.on_message(filters.command('stats') & filters.incoming)
 async def stats_command(bot, message):
     mlz = await message.reply("Loading Details....")
-    tot1 = await get_total_files_count()
     count1, count2, count3 = await get_individual_db_counts()
+    tot1 = count1 + count2 + count3  # Calculate total from individual counts
     users = await db.total_users_count()
     chats = await db.total_chat_count()
+    
+    # Get storage stats for each database
     stats = await clientDB.command('dbStats')
     used_dbSize = (stats['dataSize']/(1024*1024))+(stats['indexSize']/(1024*1024))        
     stats2 = await clientDB2.command('dbStats')
     used_dbSize2 = (stats2['dataSize']/(1024*1024))+(stats2['indexSize']/(1024*1024))
     stats3 = await clientDB3.command('dbStats')
     used_dbSize3 = (stats3['dataSize']/(1024*1024))+(stats3['indexSize']/(1024*1024))
-    await mlz.edit(text=script.STATUS_TXT.format(tot1, users, chats, count1, round(used_dbSize, 2), count2, round(used_dbSize2, 2), count3, round(used_dbSize3, 2)))
+    
+    await mlz.edit(text=script.STATUS_TXT.format(
+        f"{tot1:,}", f"{users:,}", f"{chats:,}", 
+        f"{count1:,}", round(used_dbSize, 2), 
+        f"{count2:,}", round(used_dbSize2, 2), 
+        f"{count3:,}", round(used_dbSize3, 2)
+    ))
     
 # a function for trespassing into others groups, Inspired by a Vazha
 # Not to be used , But Just to showcase his vazhatharam.
