@@ -141,7 +141,16 @@ async def get_search_results(query, file_type=None, max_results=8, offset=0, fil
         files_media3 = await Media3.find(filter_query).sort('$natural', -1).to_list(length=48)
         
         # Combine results from all databases
-        files_media = files_media1 + files_media2 + files_media3
+        all_files = files_media1 + files_media2 + files_media3
+        
+        # Remove duplicates based on file_name and file_size
+        seen = set()
+        files_media = []
+        for file in all_files:
+            file_key = (file.file_name, file.file_size)
+            if file_key not in seen:
+                seen.add(file_key)
+                files_media.append(file)
         
         # Sort combined results by natural order (newest first)
         files_media.sort(key=lambda x: x.file_id, reverse=True)
@@ -187,27 +196,31 @@ async def get_bad_files(query, file_type=None, filter=False):
         filter['file_type'] = file_type
 
     # Get results from all three databases
-    total_results1 = await Media.count_documents(filter)
-    total_results2 = await Media2.count_documents(filter)
-    total_results3 = await Media3.count_documents(filter)
-    total_results = total_results1 + total_results2 + total_results3
-    
     cursor_media1 = Media.find(filter)
     cursor_media1.sort('$natural', -1)
-    files_media1 = await cursor_media1.to_list(length=total_results1)
+    files_media1 = await cursor_media1.to_list(length=None)
     
     cursor_media2 = Media2.find(filter)
     cursor_media2.sort('$natural', -1)
-    files_media2 = await cursor_media2.to_list(length=total_results2)
+    files_media2 = await cursor_media2.to_list(length=None)
     
     cursor_media3 = Media3.find(filter)
     cursor_media3.sort('$natural', -1)
-    files_media3 = await cursor_media3.to_list(length=total_results3)
+    files_media3 = await cursor_media3.to_list(length=None)
     
     # Combine results from all databases
     all_files = files_media1 + files_media2 + files_media3
+    
+    # Remove duplicates based on file_name and file_size
+    seen = set()
+    unique_files = []
+    for file in all_files:
+        file_key = (file.file_name, file.file_size)
+        if file_key not in seen:
+            seen.add(file_key)
+            unique_files.append(file)
 
-    return all_files, total_results
+    return unique_files, len(unique_files)
     
 async def get_file_details(query):
     filter = {'file_id': query}
