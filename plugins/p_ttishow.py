@@ -143,10 +143,10 @@ async def stats_command(bot, message):
     used_dbSize3 = (stats3['dataSize']/(1024*1024))+(stats3['indexSize']/(1024*1024))
     
     await mlz.edit(text=script.STATUS_TXT.format(
-        f"{tot1:,}", f"{users:,}", f"{chats:,}", 
-        f"{count1:,}", round(used_dbSize, 2), 
-        f"{count2:,}", round(used_dbSize2, 2), 
-        f"{count3:,}", round(used_dbSize3, 2)
+        int(tot1), int(users), int(chats), 
+        int(count1), round(used_dbSize, 2), 
+        int(count2), round(used_dbSize2, 2), 
+        int(count3), round(used_dbSize3, 2)
     ))
     
 # a function for trespassing into others groups, Inspired by a Vazha

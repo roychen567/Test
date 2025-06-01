@@ -285,7 +285,7 @@ async def get_total_files_count():
         count1 = await Media.count_documents()
         count2 = await Media2.count_documents()
         count3 = await Media3.count_documents()
-        return count1 + count2 + count3
+        return int(count1 + count2 + count3)
     except Exception as e:
         logger.exception(f"Error counting files: {e}")
         return 0
@@ -296,7 +296,7 @@ async def get_individual_db_counts():
         count1 = await Media.count_documents()
         count2 = await Media2.count_documents()
         count3 = await Media3.count_documents()
-        return count1, count2, count3
+        return int(count1), int(count2), int(count3)
     except Exception as e:
         logger.exception(f"Error counting individual files: {e}")
         return 0, 0, 0

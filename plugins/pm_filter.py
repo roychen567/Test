@@ -247,10 +247,10 @@ async def cb_handler(client: Client, query: CallbackQuery):
         
         await query.message.edit_text(
             text=script.STATUS_TXT.format(
-                f"{tot1:,}", f"{users:,}", f"{chats:,}", 
-                f"{count1:,}", round(used_dbSize, 2), 
-                f"{count2:,}", round(used_dbSize2, 2), 
-                f"{count3:,}", round(used_dbSize3, 2)
+                int(tot1), int(users), int(chats), 
+                int(count1), round(used_dbSize, 2), 
+                int(count2), round(used_dbSize2, 2), 
+                int(count3), round(used_dbSize3, 2)
             ),
             reply_markup=reply_markup,
             parse_mode=enums.ParseMode.HTML
