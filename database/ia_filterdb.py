@@ -282,9 +282,22 @@ def unpack_new_file_id(new_file_id):
 async def get_total_files_count():
     """Get total files count from all three databases"""
     try:
-        count1 = await Media.count_documents()
-        count2 = await Media2.count_documents()
-        count3 = await Media3.count_documents()
+        # Check if collections exist before counting
+        try:
+            count1 = await Media.count_documents()
+        except Exception:
+            count1 = 0
+            
+        try:
+            count2 = await Media2.count_documents()
+        except Exception:
+            count2 = 0
+            
+        try:
+            count3 = await Media3.count_documents()
+        except Exception:
+            count3 = 0
+            
         return int(count1 + count2 + count3)
     except Exception as e:
         logger.exception(f"Error counting files: {e}")
@@ -293,9 +306,22 @@ async def get_total_files_count():
 async def get_individual_db_counts():
     """Get individual file counts from each database"""
     try:
-        count1 = await Media.count_documents()
-        count2 = await Media2.count_documents()
-        count3 = await Media3.count_documents()
+        # Check if collections exist before counting
+        try:
+            count1 = await Media.count_documents()
+        except Exception:
+            count1 = 0
+            
+        try:
+            count2 = await Media2.count_documents()
+        except Exception:
+            count2 = 0
+            
+        try:
+            count3 = await Media3.count_documents()
+        except Exception:
+            count3 = 0
+            
         return int(count1), int(count2), int(count3)
     except Exception as e:
         logger.exception(f"Error counting individual files: {e}")
